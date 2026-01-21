@@ -136,6 +136,141 @@ const Index = () => {
         price: 890,
         image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/c9d3fcb9-b9de-4b77-8633-6bc67ce7fc33.jpg'
       }
+    ],
+    pizza: [
+      {
+        name: 'Маргарита',
+        description: 'Томаты, моцарелла, базилик',
+        price: 590,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/60aa3bdd-9e2f-49f5-9f45-0dc29675cbe2.jpg',
+        popular: true
+      },
+      {
+        name: 'Пепперони',
+        description: 'Пепперони, моцарелла, томатный соус',
+        price: 650,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/60aa3bdd-9e2f-49f5-9f45-0dc29675cbe2.jpg'
+      },
+      {
+        name: 'Четыре сыра',
+        description: 'Моцарелла, пармезан, дор блю, чеддер',
+        price: 720,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/60aa3bdd-9e2f-49f5-9f45-0dc29675cbe2.jpg'
+      },
+      {
+        name: 'Гавайская',
+        description: 'Курица, ананасы, моцарелла',
+        price: 680,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/60aa3bdd-9e2f-49f5-9f45-0dc29675cbe2.jpg'
+      }
+    ],
+    burgers: [
+      {
+        name: 'Чизбургер',
+        description: 'Говяжья котлета, чеддер, соус, овощи',
+        price: 450,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/f3d7444a-9ba1-4730-90e7-c31b74e68c90.jpg',
+        popular: true
+      },
+      {
+        name: 'Дабл бургер',
+        description: 'Две котлеты, сыр, бекон, соус',
+        price: 580,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/f3d7444a-9ba1-4730-90e7-c31b74e68c90.jpg'
+      },
+      {
+        name: 'Картофель фри',
+        description: 'Хрустящий картофель с соусом',
+        price: 180,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/f3d7444a-9ba1-4730-90e7-c31b74e68c90.jpg'
+      },
+      {
+        name: 'Куриные крылья BBQ',
+        description: '8 крылышек с соусом барбекю',
+        price: 390,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/f3d7444a-9ba1-4730-90e7-c31b74e68c90.jpg'
+      }
+    ],
+    wok: [
+      {
+        name: 'Лапша с курицей',
+        description: 'Яичная лапша, курица, овощи, терияки',
+        price: 420,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/c9d3fcb9-b9de-4b77-8633-6bc67ce7fc33.jpg',
+        popular: true
+      },
+      {
+        name: 'Рис с креветками',
+        description: 'Жареный рис, креветки, овощи, соевый соус',
+        price: 490,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/c9d3fcb9-b9de-4b77-8633-6bc67ce7fc33.jpg'
+      },
+      {
+        name: 'Удон с говядиной',
+        description: 'Лапша удон, говядина, овощи, устричный соус',
+        price: 460,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/c9d3fcb9-b9de-4b77-8633-6bc67ce7fc33.jpg'
+      },
+      {
+        name: 'Овощной вок',
+        description: 'Лапша, брокколи, перец, грибы, кунжут',
+        price: 350,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/c9d3fcb9-b9de-4b77-8633-6bc67ce7fc33.jpg'
+      }
+    ],
+    drinks: [
+      {
+        name: 'Апельсиновый фреш',
+        description: '100% натуральный сок, 300 мл',
+        price: 250,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/f3d7444a-9ba1-4730-90e7-c31b74e68c90.jpg'
+      },
+      {
+        name: 'Лимонад домашний',
+        description: 'Лимон, мята, газированная вода, 500 мл',
+        price: 180,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/f3d7444a-9ba1-4730-90e7-c31b74e68c90.jpg',
+        popular: true
+      },
+      {
+        name: 'Зелёный чай',
+        description: 'Японский сенча, 400 мл',
+        price: 150,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/f3d7444a-9ba1-4730-90e7-c31b74e68c90.jpg'
+      },
+      {
+        name: 'Морс клюквенный',
+        description: 'Домашний морс из северной клюквы, 500 мл',
+        price: 200,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/f3d7444a-9ba1-4730-90e7-c31b74e68c90.jpg'
+      }
+    ],
+    other: [
+      {
+        name: 'Чизкейк Нью-Йорк',
+        description: 'Классический американский чизкейк',
+        price: 280,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/60aa3bdd-9e2f-49f5-9f45-0dc29675cbe2.jpg',
+        popular: true
+      },
+      {
+        name: 'Тирамису',
+        description: 'Итальянский десерт с маскарпоне',
+        price: 320,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/60aa3bdd-9e2f-49f5-9f45-0dc29675cbe2.jpg'
+      },
+      {
+        name: 'Эдамаме',
+        description: 'Молодые соевые бобы с солью',
+        price: 220,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/60aa3bdd-9e2f-49f5-9f45-0dc29675cbe2.jpg'
+      },
+      {
+        name: 'Мисо-суп',
+        description: 'Традиционный японский суп',
+        price: 190,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/60aa3bdd-9e2f-49f5-9f45-0dc29675cbe2.jpg'
+      }
     ]
   };
 
@@ -322,10 +457,15 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">Наше меню</h2>
           <Tabs defaultValue="rolls" className="w-full">
-            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-12">
+            <TabsList className="grid w-full max-w-4xl mx-auto grid-cols-4 lg:grid-cols-8 mb-12">
               <TabsTrigger value="rolls">Роллы</TabsTrigger>
               <TabsTrigger value="sushi">Суши</TabsTrigger>
               <TabsTrigger value="sets">Сеты</TabsTrigger>
+              <TabsTrigger value="pizza">Пицца</TabsTrigger>
+              <TabsTrigger value="burgers">Бургеры</TabsTrigger>
+              <TabsTrigger value="wok">WOK</TabsTrigger>
+              <TabsTrigger value="drinks">Напитки</TabsTrigger>
+              <TabsTrigger value="other">Прочее</TabsTrigger>
             </TabsList>
             {Object.entries(menuItems).map(([category, items]) => (
               <TabsContent key={category} value={category}>
