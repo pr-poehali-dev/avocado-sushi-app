@@ -1,0 +1,15 @@
+{
+  "tests": [
+    {
+      "name": "Check promo code",
+      "method": "GET",
+      "path": "/?code=ЛЕТО2026",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "code": "string",
+        "discount_percent": "number"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

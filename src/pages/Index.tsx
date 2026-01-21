@@ -23,6 +23,9 @@ const Index = () => {
   const [activeSection, setActiveSection] = useState('menu');
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [promoCode, setPromoCode] = useState('');
+  const [promoDiscount, setPromoDiscount] = useState(0);
+  const [promoError, setPromoError] = useState('');
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -71,6 +74,34 @@ const Index = () => {
   const getDeliveryFee = () => {
     const total = getTotalPrice();
     return total >= 1000 ? 0 : 300;
+  };
+
+  const applyPromoCode = async () => {
+    if (!promoCode) return;
+    
+    try {
+      const response = await fetch(`https://functions.poehali.dev/c73fbfa1-8b50-4666-b88a-82e18d692a28?code=${promoCode.toUpperCase()}`);
+      const data = await response.json();
+      
+      if (response.ok) {
+        setPromoDiscount(data.discount_percent);
+        setPromoError('');
+      } else {
+        setPromoError('Промокод не найден или истёк');
+        setPromoDiscount(0);
+      }
+    } catch (error) {
+      setPromoError('Ошибка проверки промокода');
+      setPromoDiscount(0);
+    }
+  };
+
+  const getDiscountAmount = () => {
+    return Math.round((getTotalPrice() * promoDiscount) / 100);
+  };
+
+  const getFinalTotal = () => {
+    return getTotalPrice() + getDeliveryFee() - getDiscountAmount();
   };
 
   const menuItems = {
@@ -394,21 +425,51 @@ const Index = () => {
                         ))}
                       </div>
                       <Separator className="my-6" />
-                      <div className="space-y-2">
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Сумма заказа:</span>
-                          <span className="font-semibold">{getTotalPrice()} ₽</span>
+                      <div className="space-y-4">
+                        <div>
+                          <label className="text-sm font-medium mb-2 block">Промокод</label>
+                          <div className="flex gap-2">
+                            <Input
+                              placeholder="Введите промокод"
+                              value={promoCode}
+                              onChange={(e) => setPromoCode(e.target.value)}
+                              onKeyPress={(e) => e.key === 'Enter' && applyPromoCode()}
+                            />
+                            <Button onClick={applyPromoCode} variant="outline">
+                              Применить
+                            </Button>
+                          </div>
+                          {promoError && (
+                            <p className="text-sm text-destructive mt-1">{promoError}</p>
+                          )}
+                          {promoDiscount > 0 && (
+                            <p className="text-sm text-green-600 mt-1">
+                              ✓ Скидка {promoDiscount}% применена!
+                            </p>
+                          )}
                         </div>
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Доставка:</span>
-                          <span className="font-semibold">
-                            {getDeliveryFee() === 0 ? 'Бесплатно' : `${getDeliveryFee()} ₽`}
-                          </span>
-                        </div>
-                        <Separator className="my-2" />
-                        <div className="flex justify-between text-lg">
-                          <span className="font-bold">Итого:</span>
-                          <span className="font-bold">{getTotalPrice() + getDeliveryFee()} ₽</span>
+                        <div className="space-y-2">
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Сумма заказа:</span>
+                            <span className="font-semibold">{getTotalPrice()} ₽</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Доставка:</span>
+                            <span className="font-semibold">
+                              {getDeliveryFee() === 0 ? 'Бесплатно' : `${getDeliveryFee()} ₽`}
+                            </span>
+                          </div>
+                          {promoDiscount > 0 && (
+                            <div className="flex justify-between text-green-600">
+                              <span>Скидка ({promoDiscount}%):</span>
+                              <span className="font-semibold">-{getDiscountAmount()} ₽</span>
+                            </div>
+                          )}
+                          <Separator className="my-2" />
+                          <div className="flex justify-between text-lg">
+                            <span className="font-bold">Итого:</span>
+                            <span className="font-bold">{getFinalTotal()} ₽</span>
+                          </div>
                         </div>
                       </div>
                       <Button
@@ -560,7 +621,7 @@ const Index = () => {
                     </div>
                     <div className="p-4 bg-muted rounded-lg">
                       <p className="text-sm font-medium mb-2">Адрес ресторана:</p>
-                      <p className="text-sm text-muted-foreground">ул. Пушкина, д. 10</p>
+                      <p className="text-sm text-muted-foreground">Киевское шоссе, д. 56, г. Смоленск</p>
                       <p className="text-sm text-muted-foreground">Ежедневно с 10:00 до 23:00</p>
                     </div>
                     <Button className="w-full" size="lg">
@@ -677,8 +738,8 @@ const Index = () => {
                   <Icon name="MapPin" size={24} className="text-primary mt-1" />
                   <div>
                     <h3 className="font-semibold mb-1">Адрес</h3>
-                    <p className="text-muted-foreground">ул. Пушкина, д. 10</p>
-                    <p className="text-muted-foreground">г. Москва</p>
+                    <p className="text-muted-foreground">Киевское шоссе, д. 56</p>
+                    <p className="text-muted-foreground">г. Смоленск</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -763,7 +824,7 @@ const Index = () => {
               <ul className="space-y-2 text-background/70">
                 <li>+7 (495) 123-45-67</li>
                 <li>info@avocado-sushi.ru</li>
-                <li>ул. Пушкина, д. 10</li>
+                <li>Киевское шоссе, 56, Смоленск</li>
               </ul>
             </div>
           </div>
