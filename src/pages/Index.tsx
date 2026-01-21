@@ -1,12 +1,475 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import Icon from '@/components/ui/icon';
 
 const Index = () => {
+  const [activeSection, setActiveSection] = useState('menu');
+
+  const scrollToSection = (sectionId: string) => {
+    setActiveSection(sectionId);
+    const element = document.getElementById(sectionId);
+    element?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const menuItems = {
+    rolls: [
+      {
+        name: 'Филадельфия',
+        description: 'Лосось, сливочный сыр, огурец',
+        price: 450,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/60aa3bdd-9e2f-49f5-9f45-0dc29675cbe2.jpg',
+        popular: true
+      },
+      {
+        name: 'Калифорния',
+        description: 'Краб, авокадо, огурец, икра тобико',
+        price: 390,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/60aa3bdd-9e2f-49f5-9f45-0dc29675cbe2.jpg'
+      },
+      {
+        name: 'Спайси с лососем',
+        description: 'Лосось, спайси соус, кунжут',
+        price: 420,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/60aa3bdd-9e2f-49f5-9f45-0dc29675cbe2.jpg'
+      }
+    ],
+    sushi: [
+      {
+        name: 'Нигири с лососем',
+        description: 'Свежий лосось на рисе',
+        price: 120,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/f3d7444a-9ba1-4730-90e7-c31b74e68c90.jpg'
+      },
+      {
+        name: 'Нигири с тунцом',
+        description: 'Свежий тунец на рисе',
+        price: 140,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/f3d7444a-9ba1-4730-90e7-c31b74e68c90.jpg',
+        popular: true
+      },
+      {
+        name: 'Нигири с креветкой',
+        description: 'Тигровая креветка на рисе',
+        price: 130,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/f3d7444a-9ba1-4730-90e7-c31b74e68c90.jpg'
+      }
+    ],
+    sets: [
+      {
+        name: 'Сет "Авокадо"',
+        description: '24 шт: Филадельфия, Калифорния, Спайси',
+        price: 1290,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/c9d3fcb9-b9de-4b77-8633-6bc67ce7fc33.jpg',
+        popular: true
+      },
+      {
+        name: 'Сет "Для двоих"',
+        description: '40 шт: роллы, суши, сашими',
+        price: 2100,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/c9d3fcb9-b9de-4b77-8633-6bc67ce7fc33.jpg'
+      },
+      {
+        name: 'Сет "Классика"',
+        description: '16 шт: традиционные роллы',
+        price: 890,
+        image: 'https://cdn.poehali.dev/projects/d7a0e6cd-ae73-49e7-94f9-e13522ebe130/files/c9d3fcb9-b9de-4b77-8633-6bc67ce7fc33.jpg'
+      }
+    ]
+  };
+
+  const reviews = [
+    {
+      name: 'Мария',
+      rating: 5,
+      text: 'Лучшие суши в городе! Всегда свежие ингредиенты и быстрая доставка.',
+      date: '15.01.2026'
+    },
+    {
+      name: 'Алексей',
+      rating: 5,
+      text: 'Заказываем уже второй год. Качество всегда на высоте!',
+      date: '10.01.2026'
+    },
+    {
+      name: 'Екатерина',
+      rating: 5,
+      text: 'Филадельфия просто тает во рту. Спасибо за вкусную еду!',
+      date: '05.01.2026'
+    }
+  ];
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4 color-black text-black">Добро пожаловать!</h1>
-        <p className="text-xl text-gray-600">тут будет отображаться ваш проект</p>
-      </div>
+    <div className="min-h-screen">
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-border">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="text-3xl">🥑</div>
+              <h1 className="text-2xl font-bold text-primary">Авокадо</h1>
+            </div>
+            <nav className="hidden md:flex gap-8">
+              {['menu', 'order', 'about', 'delivery', 'contacts', 'reviews'].map((section) => (
+                <button
+                  key={section}
+                  onClick={() => scrollToSection(section)}
+                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                    activeSection === section ? 'text-primary' : 'text-muted-foreground'
+                  }`}
+                >
+                  {section === 'menu' && 'Меню'}
+                  {section === 'order' && 'Заказать'}
+                  {section === 'about' && 'О нас'}
+                  {section === 'delivery' && 'Доставка'}
+                  {section === 'contacts' && 'Контакты'}
+                  {section === 'reviews' && 'Отзывы'}
+                </button>
+              ))}
+            </nav>
+            <Button className="hidden md:flex">
+              <Icon name="ShoppingCart" size={18} className="mr-2" />
+              Корзина
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      <section className="py-20 bg-gradient-to-b from-primary/5 to-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center animate-fade-in">
+            <h2 className="text-5xl md:text-6xl font-bold mb-6">
+              Свежие суши <br />
+              <span className="text-primary">с доставкой за 60 минут</span>
+            </h2>
+            <p className="text-xl text-muted-foreground mb-8">
+              Готовим из премиальных ингредиентов. Каждый ролл — с любовью.
+            </p>
+            <Button size="lg" className="text-lg px-8" onClick={() => scrollToSection('menu')}>
+              Смотреть меню
+              <Icon name="ArrowRight" size={20} className="ml-2" />
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <section id="menu" className="py-20">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl font-bold text-center mb-12">Наше меню</h2>
+          <Tabs defaultValue="rolls" className="w-full">
+            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-12">
+              <TabsTrigger value="rolls">Роллы</TabsTrigger>
+              <TabsTrigger value="sushi">Суши</TabsTrigger>
+              <TabsTrigger value="sets">Сеты</TabsTrigger>
+            </TabsList>
+            {Object.entries(menuItems).map(([category, items]) => (
+              <TabsContent key={category} value={category}>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {items.map((item, idx) => (
+                    <Card key={idx} className="overflow-hidden hover:shadow-lg transition-all duration-300 animate-scale-in">
+                      <div className="relative aspect-square overflow-hidden">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                        />
+                        {item.popular && (
+                          <Badge className="absolute top-4 right-4 bg-primary">
+                            Популярное
+                          </Badge>
+                        )}
+                      </div>
+                      <CardContent className="p-6">
+                        <h3 className="text-xl font-semibold mb-2">{item.name}</h3>
+                        <p className="text-muted-foreground text-sm mb-4">{item.description}</p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-2xl font-bold">{item.price} ₽</span>
+                          <Button size="sm">
+                            <Icon name="Plus" size={16} className="mr-1" />
+                            В корзину
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </TabsContent>
+            ))}
+          </Tabs>
+        </div>
+      </section>
+
+      <section id="order" className="py-20 bg-muted/50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-2xl mx-auto">
+            <h2 className="text-4xl font-bold text-center mb-4">Оформить заказ</h2>
+            <p className="text-center text-muted-foreground mb-12">
+              Доставка бесплатно при заказе от 1000 ₽
+            </p>
+            <Card>
+              <CardContent className="p-8">
+                <Tabs defaultValue="delivery" className="w-full">
+                  <TabsList className="grid w-full grid-cols-2 mb-6">
+                    <TabsTrigger value="delivery">
+                      <Icon name="Truck" size={16} className="mr-2" />
+                      Доставка
+                    </TabsTrigger>
+                    <TabsTrigger value="pickup">
+                      <Icon name="Store" size={16} className="mr-2" />
+                      Самовывоз
+                    </TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="delivery" className="space-y-4">
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Ваше имя</label>
+                      <Input placeholder="Введите имя" />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Телефон</label>
+                      <Input placeholder="+7 (___) ___-__-__" />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Адрес доставки</label>
+                      <Input placeholder="Улица, дом, квартира" />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Комментарий к заказу</label>
+                      <Textarea placeholder="Время доставки, пожелания..." rows={3} />
+                    </div>
+                    <Button className="w-full" size="lg">
+                      Оформить заказ
+                    </Button>
+                  </TabsContent>
+                  <TabsContent value="pickup" className="space-y-4">
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Ваше имя</label>
+                      <Input placeholder="Введите имя" />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Телефон</label>
+                      <Input placeholder="+7 (___) ___-__-__" />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Время получения</label>
+                      <Input type="time" />
+                    </div>
+                    <div className="p-4 bg-muted rounded-lg">
+                      <p className="text-sm font-medium mb-2">Адрес ресторана:</p>
+                      <p className="text-sm text-muted-foreground">ул. Пушкина, д. 10</p>
+                      <p className="text-sm text-muted-foreground">Ежедневно с 10:00 до 23:00</p>
+                    </div>
+                    <Button className="w-full" size="lg">
+                      Оформить заказ
+                    </Button>
+                  </TabsContent>
+                </Tabs>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-4xl font-bold mb-6">О нас</h2>
+            <p className="text-lg text-muted-foreground mb-6">
+              Суши-бар «Авокадо» — это место, где японская кухня встречается с любовью к деталям. 
+              Мы работаем только с проверенными поставщиками и используем свежие ингредиенты премиум-класса.
+            </p>
+            <div className="grid md:grid-cols-3 gap-8 mt-12">
+              <div className="text-center">
+                <div className="text-4xl mb-4">🍣</div>
+                <h3 className="font-semibold mb-2">Свежесть</h3>
+                <p className="text-sm text-muted-foreground">
+                  Ингредиенты каждый день
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl mb-4">⚡</div>
+                <h3 className="font-semibold mb-2">Быстро</h3>
+                <p className="text-sm text-muted-foreground">
+                  Доставка за 60 минут
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl mb-4">👨‍🍳</div>
+                <h3 className="font-semibold mb-2">Мастерство</h3>
+                <p className="text-sm text-muted-foreground">
+                  Опытные сушисты
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="delivery" className="py-20 bg-muted/50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-4xl font-bold text-center mb-12">Доставка и оплата</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              <Card>
+                <CardContent className="p-6">
+                  <Icon name="Truck" size={32} className="text-primary mb-4" />
+                  <h3 className="text-xl font-semibold mb-3">Условия доставки</h3>
+                  <ul className="space-y-2 text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <Icon name="Check" size={18} className="text-primary mt-0.5" />
+                      <span>Бесплатно от 1000 ₽</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Icon name="Check" size={18} className="text-primary mt-0.5" />
+                      <span>300 ₽ при заказе до 1000 ₽</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Icon name="Check" size={18} className="text-primary mt-0.5" />
+                      <span>Доставка за 60 минут</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Icon name="Check" size={18} className="text-primary mt-0.5" />
+                      <span>Зона доставки — весь город</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-6">
+                  <Icon name="CreditCard" size={32} className="text-primary mb-4" />
+                  <h3 className="text-xl font-semibold mb-3">Способы оплаты</h3>
+                  <ul className="space-y-2 text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <Icon name="Check" size={18} className="text-primary mt-0.5" />
+                      <span>Наличными курьеру</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Icon name="Check" size={18} className="text-primary mt-0.5" />
+                      <span>Картой курьеру</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Icon name="Check" size={18} className="text-primary mt-0.5" />
+                      <span>Онлайн на сайте</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Icon name="Check" size={18} className="text-primary mt-0.5" />
+                      <span>Безналичный расчёт</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contacts" className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-4xl font-bold text-center mb-12">Контакты</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <Icon name="MapPin" size={24} className="text-primary mt-1" />
+                  <div>
+                    <h3 className="font-semibold mb-1">Адрес</h3>
+                    <p className="text-muted-foreground">ул. Пушкина, д. 10</p>
+                    <p className="text-muted-foreground">г. Москва</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <Icon name="Phone" size={24} className="text-primary mt-1" />
+                  <div>
+                    <h3 className="font-semibold mb-1">Телефон</h3>
+                    <p className="text-muted-foreground">+7 (495) 123-45-67</p>
+                    <p className="text-sm text-muted-foreground">Ежедневно с 10:00 до 23:00</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <Icon name="Mail" size={24} className="text-primary mt-1" />
+                  <div>
+                    <h3 className="font-semibold mb-1">Email</h3>
+                    <p className="text-muted-foreground">info@avocado-sushi.ru</p>
+                  </div>
+                </div>
+              </div>
+              <Card>
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-semibold mb-4">Напишите нам</h3>
+                  <form className="space-y-4">
+                    <Input placeholder="Ваше имя" />
+                    <Input placeholder="Email" type="email" />
+                    <Textarea placeholder="Сообщение" rows={4} />
+                    <Button className="w-full">Отправить</Button>
+                  </form>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="reviews" className="py-20 bg-muted/50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl font-bold text-center mb-12">Отзывы наших гостей</h2>
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {reviews.map((review, idx) => (
+              <Card key={idx}>
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-1 mb-3">
+                    {[...Array(review.rating)].map((_, i) => (
+                      <Icon key={i} name="Star" size={18} className="text-yellow-500 fill-yellow-500" />
+                    ))}
+                  </div>
+                  <p className="text-muted-foreground mb-4">{review.text}</p>
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold">{review.name}</span>
+                    <span className="text-sm text-muted-foreground">{review.date}</span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <footer className="bg-foreground text-background py-12">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-3 gap-8 mb-8">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="text-3xl">🥑</div>
+                <h3 className="text-xl font-bold">Авокадо</h3>
+              </div>
+              <p className="text-background/70">
+                Свежие суши с доставкой за 60 минут
+              </p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Навигация</h4>
+              <ul className="space-y-2 text-background/70">
+                <li><button onClick={() => scrollToSection('menu')}>Меню</button></li>
+                <li><button onClick={() => scrollToSection('order')}>Заказать</button></li>
+                <li><button onClick={() => scrollToSection('delivery')}>Доставка</button></li>
+                <li><button onClick={() => scrollToSection('contacts')}>Контакты</button></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Контакты</h4>
+              <ul className="space-y-2 text-background/70">
+                <li>+7 (495) 123-45-67</li>
+                <li>info@avocado-sushi.ru</li>
+                <li>ул. Пушкина, д. 10</li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-background/20 pt-8 text-center text-background/70">
+            <p>© 2026 Авокадо. Все права защищены.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
