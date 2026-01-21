@@ -5,15 +5,72 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Separator } from '@/components/ui/separator';
 import Icon from '@/components/ui/icon';
+
+type MenuItem = {
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  popular?: boolean;
+};
+
+type CartItem = MenuItem & { quantity: number };
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('menu');
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const addToCart = (item: MenuItem) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((cartItem) => cartItem.name === item.name);
+      if (existingItem) {
+        return prevCart.map((cartItem) =>
+          cartItem.name === item.name
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        );
+      }
+      return [...prevCart, { ...item, quantity: 1 }];
+    });
+  };
+
+  const removeFromCart = (itemName: string) => {
+    setCart((prevCart) => prevCart.filter((item) => item.name !== itemName));
+  };
+
+  const updateQuantity = (itemName: string, newQuantity: number) => {
+    if (newQuantity <= 0) {
+      removeFromCart(itemName);
+      return;
+    }
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.name === itemName ? { ...item, quantity: newQuantity } : item
+      )
+    );
+  };
+
+  const getTotalPrice = () => {
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
+
+  const getTotalItems = () => {
+    return cart.reduce((total, item) => total + item.quantity, 0);
+  };
+
+  const getDeliveryFee = () => {
+    const total = getTotalPrice();
+    return total >= 1000 ? 0 : 300;
   };
 
   const menuItems = {
@@ -130,10 +187,115 @@ const Index = () => {
                 </button>
               ))}
             </nav>
-            <Button className="hidden md:flex">
-              <Icon name="ShoppingCart" size={18} className="mr-2" />
-              Корзина
-            </Button>
+            <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
+              <SheetTrigger asChild>
+                <Button className="hidden md:flex relative">
+                  <Icon name="ShoppingCart" size={18} className="mr-2" />
+                  Корзина
+                  {getTotalItems() > 0 && (
+                    <Badge className="absolute -top-2 -right-2 h-6 w-6 flex items-center justify-center p-0 rounded-full">
+                      {getTotalItems()}
+                    </Badge>
+                  )}
+                </Button>
+              </SheetTrigger>
+              <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
+                <SheetHeader>
+                  <SheetTitle>Корзина</SheetTitle>
+                </SheetHeader>
+                <div className="mt-8">
+                  {cart.length === 0 ? (
+                    <div className="text-center py-12">
+                      <Icon name="ShoppingCart" size={48} className="mx-auto text-muted-foreground mb-4" />
+                      <p className="text-muted-foreground">Корзина пуста</p>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="space-y-4">
+                        {cart.map((item) => (
+                          <Card key={item.name}>
+                            <CardContent className="p-4">
+                              <div className="flex gap-4">
+                                <img
+                                  src={item.image}
+                                  alt={item.name}
+                                  className="w-20 h-20 object-cover rounded-md"
+                                />
+                                <div className="flex-1">
+                                  <h4 className="font-semibold mb-1">{item.name}</h4>
+                                  <p className="text-sm text-muted-foreground mb-2">{item.price} ₽</p>
+                                  <div className="flex items-center gap-2">
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      onClick={() => updateQuantity(item.name, item.quantity - 1)}
+                                    >
+                                      <Icon name="Minus" size={14} />
+                                    </Button>
+                                    <span className="w-8 text-center">{item.quantity}</span>
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      onClick={() => updateQuantity(item.name, item.quantity + 1)}
+                                    >
+                                      <Icon name="Plus" size={14} />
+                                    </Button>
+                                    <Button
+                                      size="sm"
+                                      variant="ghost"
+                                      className="ml-auto"
+                                      onClick={() => removeFromCart(item.name)}
+                                    >
+                                      <Icon name="Trash2" size={14} />
+                                    </Button>
+                                  </div>
+                                </div>
+                                <div className="font-semibold">
+                                  {item.price * item.quantity} ₽
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+                      <Separator className="my-6" />
+                      <div className="space-y-2">
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Сумма заказа:</span>
+                          <span className="font-semibold">{getTotalPrice()} ₽</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Доставка:</span>
+                          <span className="font-semibold">
+                            {getDeliveryFee() === 0 ? 'Бесплатно' : `${getDeliveryFee()} ₽`}
+                          </span>
+                        </div>
+                        <Separator className="my-2" />
+                        <div className="flex justify-between text-lg">
+                          <span className="font-bold">Итого:</span>
+                          <span className="font-bold">{getTotalPrice() + getDeliveryFee()} ₽</span>
+                        </div>
+                      </div>
+                      <Button
+                        className="w-full mt-6"
+                        size="lg"
+                        onClick={() => {
+                          setIsCartOpen(false);
+                          scrollToSection('order');
+                        }}
+                      >
+                        Оформить заказ
+                      </Button>
+                      {getTotalPrice() < 1000 && (
+                        <p className="text-sm text-center text-muted-foreground mt-4">
+                          Добавьте товаров на {1000 - getTotalPrice()} ₽ для бесплатной доставки
+                        </p>
+                      )}
+                    </>
+                  )}
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </header>
@@ -187,7 +349,7 @@ const Index = () => {
                         <p className="text-muted-foreground text-sm mb-4">{item.description}</p>
                         <div className="flex items-center justify-between">
                           <span className="text-2xl font-bold">{item.price} ₽</span>
-                          <Button size="sm">
+                          <Button size="sm" onClick={() => addToCart(item)}>
                             <Icon name="Plus" size={16} className="mr-1" />
                             В корзину
                           </Button>
